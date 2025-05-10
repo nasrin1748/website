@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Python Function from JavaScript</title>
+    <!-- PyScript CSS -->
+ <!--   <link rel="stylesheet" href="https://pyscript.net/releases/2023.03.1/pyscript.css" />
+    <script defer src="https://pyscript.net/releases/2023.03.1/pyscript.js"></script>-->
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.10.1/core.css">
+
+   <script type="module" src="https://pyscript.net/releases/2024.10.1/core.js"></script>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            background-image: url("moon-bunny.png");
+            color: #333;
+            padding: 20px;
+        }
+        #output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #Ffffff;
+            color: #000000;
+        }
+    .tab2 {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color:#Ffffff;
+  margin-top: 10px;
+
+}
+
+/* Style the buttons inside the tab */
+.tab2 button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+/* Change background color of buttons on hover */
+.tab2 button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab2 button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tab2content {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.tab {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: white;
+  width: 20%;
+  margin-top: 10px;
+}
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 10px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 13px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  width: 70%;
+  height: 300px;
+}
+    </style>
+            <link rel="stylesheet" href="./assets/css/examples.css" />
+
+</head>
+<body>
+      <nav class="navbar">
+        <div class="app-header">
+            <a href="/">
+                <img src="./logo.png" class="logo" />
+            </a>
+            @NASRIN WEBSITE
+        </div>
+    </nav>
+    <div class="tab2">
+    <button id="greet-button">Introduction</button>
+        <button id="greet-button1">Print & Display</button>
+            <button id="greet-button2">Non worker terminal</button>
+                <button id="greet-button3">Worker terminal</button>
+                <button id="greet-button4">Calling Function</button>
+            <button id="greet-button5">@when decorator</button>
+                    <button id="greet-button6">Addition Example</button>
+                    <button id="greet-button7">Pizza Booking</button>
+                        <button id="greet-button8">Text file as CSV</button>
+                            <button id="greet-button9">Importing main</button>
+     <button id="greet-button10">Rendered HTML to plaintext</button>
+    <button id="greet-button11">Rendered HTML table to dataframe</button>
+    <button id="greet-button12">Incrementing value by 1</button>
+    <button id="greet-button13">Code Editor</button>
+    <button id="greet-button14">Javascript Doesn't Support</button>
+ <!--   <button id="greet-button15">Get Greeting15</button>
+        <button id="greet-button16">Get Greeting16</button>
+        <button id="greet-button17">Get Greeting17</button>
+        <button id="greet-button18">Get Greeting18</button>
+            <button id="greet-button19">Get Greeting19</button>
+            <button id="greet-button20">Get Greeting20</button>
+            <button id="greet-button21">Get Greeting21</button> -->
+    </div>
+    <div id="output"></div>
+    <div id="output1"></div>
+     <py-config>
+        "packages" = ["pandas","html2text","numpy","Jinja2","html2text","terminaltables","beautifulsoup4"]
+        [[fetch]]
+        files = ["./main.js","./main.py","./main1.py","./main2.py","./main3.py","./main4.py","./main5.py","./main6.py","./main7.py","./main8.py","./main9.py","./main10.py","./main11.py","./main12.py","./main13.py","./main14.py","./main15.py","./main16.py","./main17.py","./main18.py","./main19.py","./main20.py","./main21.py","read.txt"]
+   </py-config>
+
+    <py-script id="py-terminal">
+        from pyscript import document
+        terminal = document.getElementById('py-terminal')
+        from js import document
+        from main import greet
+        document.greet = greet
+        from main1 import greet1
+        document.greet1 = greet1
+        from main2 import greet2
+        document.greet2 = greet2
+        from main3 import greet3
+        document.greet3 = greet3
+        from main4 import greet4
+        document.greet4 = greet4
+        from main5 import greet5
+        document.greet5 = greet5
+        from main6 import greet6
+        document.greet6 = greet6
+        from main7 import greet7
+        document.greet7 = greet7
+        from main8 import greet8
+        document.greet8 = greet8
+        from main9 import greet9
+        document.greet9 = greet9
+        from main10 import greet10
+        document.greet10 = greet10
+        from main11 import greet11
+        document.greet11 = greet11
+        from main12 import greet12
+        document.greet12 = greet12
+        from main13 import greet13
+        document.greet13 = greet13
+        from main14 import greet14
+        document.greet14 = greet14
+        from main15 import greet15
+        document.greet15 = greet15
+        from main16 import greet16
+        document.greet16 = greet16
+        from main17 import greet17
+        document.greet17 = greet17
+        from main18 import greet18
+        document.greet18 = greet18
+        from main19 import greet19
+        document.greet19 = greet19
+        from main20 import greet20
+        document.greet20 = greet20
+        from main21 import greet21
+        document.greet21 = greet21
+    </py-script>
+     <script>
+         // JavaScript to call the Python function
+        document.getElementById('greet-button').addEventListener('click', function() {
+                const result = document.greet();
+                document.getElementById('output').innerHTML = result;
+
+        });
+            document.getElementById('greet-button1').addEventListener('click', function() {
+                const result = document.greet1();
+                document.getElementById('output').innerHTML = result;
+
+        });
+           document.getElementById('greet-button2').addEventListener('click', function() {
+                const result = document.greet2();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button3').addEventListener('click', function() {
+                const result = document.greet3();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button4').addEventListener('click', function() {
+                const result = document.greet4();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button5').addEventListener('click', function() {
+                const result = document.greet5();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button6').addEventListener('click', function() {
+                const result = document.greet6();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button7').addEventListener('click', function() {
+                const result = document.greet7();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+           document.getElementById('greet-button8').addEventListener('click', function() {
+                const result = document.greet8();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button9').addEventListener('click', function() {
+                const result = document.greet9();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+           document.getElementById('greet-button10').addEventListener('click', function() {
+                const result = document.greet10();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button11').addEventListener('click', function() {
+                const result = document.greet11();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button12').addEventListener('click', function() {
+                const result = document.greet12();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button13').addEventListener('click', function() {
+                const result = document.greet13();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button14').addEventListener('click', function() {
+                const result = document.greet14();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button15').addEventListener('click', function() {
+                const result = document.greet15();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+           document.getElementById('greet-button16').addEventListener('click', function() {
+                const result = document.greet16();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+           document.getElementById('greet-button17').addEventListener('click', function() {
+                const result = document.greet17();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+           document.getElementById('greet-button18').addEventListener('click', function() {
+                const result = document.greet18();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button19').addEventListener('click', function() {
+                const result = document.greet19();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+         document.getElementById('greet-button20').addEventListener('click', function() {
+                const result = document.greet20();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+          document.getElementById('greet-button21').addEventListener('click', function() {
+                const result = document.greet21();
+                //alert(result);
+                document.getElementById('output').innerHTML = result;
+                //document.write(result);
+
+        });
+    </script>
+
+</body>
+</html>

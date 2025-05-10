@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe with SQLite</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            justify-content: center;
+            margin: 20px auto;
+        }
+        .cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #333;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .cell.taken {
+            cursor: not-allowed;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        h1 {
+            margin-bottom: 5px;
+        }
+        #status {
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic-Tac-Toe with SQLite</h1>
+    <div id="status">Player X's turn</div>
+    <div class="board" id="gameBoard"></div>
+    <button onclick="resetGame()">Reset Game</button>
+
+    <script>
+        let db;
+        let currentPlayer = "X";
+
+        // Initialize SQLite database
+        function initDb() {
+            initSqlJs({
+                locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+            }).then(function(SQL) {
+                db = new SQL.Database();
+
+                // Create a table to store the game state
+                db.exec(`
+                    CREATE TABLE IF NOT EXISTS GameState (
+                        id INTEGER PRIMARY KEY,
+                        position INTEGER NOT NULL,
+                        player TEXT NOT NULL
+                    );
+                `);
+
+                // Refresh the game board to reflect the stored state
+                refreshBoard();
+            }).catch(function(error) {
+                console.error("Error initializing SQLite:", error);
+            });
+        }
+
+        // Refresh the game board based on the database
+        function refreshBoard() {
+            const board = document.getElementById("gameBoard");
+            board.innerHTML = ""; // Clear the board
+
+            // Initialize empty board array
+            const boardState = Array(9).fill(null);
+
+            // Retrieve the current game state from the database
+            const stmt = db.prepare("SELECT * FROM GameState");
+            while (stmt.step()) {
+                const row = stmt.getAsObject();
+                boardState[row.position] = row.player;
+            }
+
+            // Populate the board with the current state
+            boardState.forEach((player, index) => {
+                const cell = document.createElement("div");
+                cell.className = "cell";
+                if (player) {
+                    cell.textContent = player;
+                    cell.classList.add("taken");
+                } else {
+                    cell.onclick = () => makeMove(index);
+                }
+                board.appendChild(cell);
+            });
+
+            // Check for a winner
+            checkWinner(boardState);
+        }
+
+        // Handle making a move
+        function makeMove(position) {
+            // Add the move to the database
+            db.exec(`
+                INSERT INTO GameState (position, player) VALUES (${position}, '${currentPlayer}');
+            `);
+
+            // Switch players and refresh the board
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            document.getElementById("status").textContent = `Player ${currentPlayer}'s turn`;
+            refreshBoard();
+        }
+
+        // Check for a winner
+        function checkWinner(boardState) {
+            const winningCombinations = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                [0, 4, 8], [2, 4, 6]             // Diagonals
+            ];
+
+            for (const combination of winningCombinations) {
+                const [a, b, c] = combination;
+                if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
+                    document.getElementById("status").textContent = `Player ${boardState[a]} wins!`;
+                    disableBoard();
+                    return;
+                }
+            }
+
+            // Check for a draw
+            if (boardState.every(cell => cell)) {
+                document.getElementById("status").textContent = "It's a draw!";
+                disableBoard();
+            }
+        }
+
+        // Disable further moves on the board
+        function disableBoard() {
+            const cells = document.querySelectorAll(".cell");
+            cells.forEach(cell => cell.classList.add("taken"));
+            document.querySelector("button").disabled = false; // Enable Reset Button
+        }
+
+        // Reset the game
+        function resetGame() {
+            // Clear the database
+            db.exec("DELETE FROM GameState");
+
+            // Reset variables
+            currentPlayer = "X";
+            document.getElementById("status").textContent = `Player X's turn`;
+
+            // Refresh the board
+            refreshBoard();
+        }
+
+        // Initialize the database when the page loads
+        initDb();
+    </script>
+</body>
+</html>
